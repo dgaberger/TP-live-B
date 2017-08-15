@@ -9,8 +9,14 @@
   "license": "MIT",
   "dependencies": {
     "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
     "bootstrap": "3.3.5",
-    "mapbox-gl": "^0.39.1"
+    "express": "^4.15.4",
+    "mapbox-gl": "^0.39.1",
+    "path": "^0.12.7",
+    "pg": "^7.1.2",
+    "sequelize": "^4.5.0",
+    "volleyball": "^1.4.1"
   },
   "devDependencies": {
     "css-loader": "^0.28.4",
