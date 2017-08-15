@@ -5,7 +5,7 @@ const buildMarker = require("./marker");
   * Instantiate the Map
   */
 
-mapboxgl.accessToken = "---- INSERT YOUR ACCESS TOKEN HERE ----";
+mapboxgl.accessToken = "pk.eyJ1IjoiZGdhYmVyZ2VyIiwiYSI6ImNqNjg0NGFwNzBjMnczNHIwZzN2eGNzZnAifQ.Qlq7Y-6Zw2SjluyJGVxSTA";
 const map = new mapboxgl.Map({
   container: "map-canvas",
   center: [-74.0, 40.731],
