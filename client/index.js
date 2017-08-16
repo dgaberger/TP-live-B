@@ -71,8 +71,5 @@ function addByClick (attType) {
 }
 
 
-
-addByClick('hotels')
-addByClick('restaurants')
-addByClick('activities')
+['hotels', 'restaurants','activities'].forEach(addByClick)
 
