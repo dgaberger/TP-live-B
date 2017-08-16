@@ -552,68 +552,58 @@ const map = new mapboxgl.Map({
   style: "mapbox://styles/mapbox/streets-v10"
 });
 
-
-
 /// Initial fetch
 
-function addName (attName, attSelect){ 	//create option els
+function addNameToSelect (attName, attSelect){ 	//create option els
 	const opElement = document.createElement('option')
 	opElement.text = attName
 	document.getElementById(attSelect).append(opElement) // Child????
 }
 
-const locations = {}
+const locations = {}	//store location data
 
 fetch('./api')
-.then(result => result.json())		// parse errthang
-.then(function(data){
+.then(result => result.json())		// jsonify
+.then(function(data){				// parse errthang
 	for (let key in data){
-		// console.log('keys: ', key)
 		for(let i in data[key]){
-			const name = data[key][i].name
-			const coord = data[key][i].place.location
-			addName(name, key + '-choices')
+			const name = data[key][i].name 	// name of each activity
+			addNameToSelect(name, key + '-choices')
+			const coord = data[key][i].place.location // location of each
 			locations[name] = coord
 		}
 	}
 })
 .catch()
 
-
 // on click (+)
 function getCoords(value){
 	return locations[value]
 }
-
-// const attractions = ['hotels', 'restaurants', 'activities']
-
-// for (att in attractions){
-// 	document.getElementById(attractions[att] + '-add').addEventListener('click', function(){
-// 		const child = document.createElement('li')
-// 		const selected = document.getElementById(attractions[att] + '-choices').value
-// 		child.innerHTML = selected
-// 		document.getElementById(attractions[att] + '-list').append(child)
-// 		buildMarker(attractions[att], getCoords(selected)).addTo(map)
-// 	})
-// }
-
-
 
 document.getElementById('hotels-add').addEventListener('click', function(){
 	const child = document.createElement('li')
 	const selected = document.getElementById('hotels-choices').value
 	child.innerHTML = selected
 	document.getElementById('hotels-list').append(child)
-	buildMarker('hotels', getCoords(selected)).addTo(map)
+	buildMarker('hotels', locations[selected]).addTo(map)
 })
 
-// document.getElementById('hotels-add').addEventListener('click', function(){
-// 	const child = document.createElement('li')
-// 	const selected = document.getElementById('hotels-choices').value
-// 	child.innerHTML = selected
-// 	document.getElementById('hotels-list').append(child)
-// 	buildMarker('hotels', getCoords(selected)).addTo(map)
-// })
+document.getElementById('restaurants-add').addEventListener('click', function(){
+	const child = document.createElement('li')
+	const selected = document.getElementById('restaurants-choices').value
+	child.innerHTML = selected
+	document.getElementById('restaurants-list').append(child)
+	buildMarker('restaurants', locations[selected]).addTo(map)
+})
+
+document.getElementById('activities-add').addEventListener('click', function(){
+	const child = document.createElement('li')
+	const selected = document.getElementById('activities-choices').value
+	child.innerHTML = selected
+	document.getElementById('activities-list').append(child)
+	buildMarker('activities', locations[selected]).addTo(map)
+})
 
 
 
@@ -658,7 +648,7 @@ const iconURLs = {
 };
 
 const buildMarker = (type, coords) => {
-	console.log('called BM')
+	console.log('called BM: ', coords)
   const markerEl = document.createElement("div");
   markerEl.style.backgroundSize = "contain";
   markerEl.style.width = "32px";
