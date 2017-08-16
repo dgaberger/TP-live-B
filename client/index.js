@@ -43,13 +43,34 @@ fetch('./api')
 
 function addByClick (attType) {
 	document.getElementById(attType + '-add').addEventListener('click', function(){
+		
+		//create list item
 		const child = document.createElement('li')
+		child.className = "itinerary-item"; 
 		const selected = document.getElementById(attType + '-choices').value
-		child.innerHTML = selected
-		document.getElementById(attType + '-list').append(child)
-		buildMarker(attType, locations[selected]).addTo(map)
+		document.getElementById(attType + '-list').append(child);
+		buildMarker(attType, locations[selected]).addTo(map);
+		map.flyTo({
+			center: locations[selected],
+			zoom: 16
+		})
+		
+		//create button
+		const button = document.createElement("button");
+		button.className = "btn btn-xs btn-danger remove btn-circle";
+		button.append("x");
+		button.addEventListener('click', function(){
+			console.log(selected);
+			child.remove();
+		})
+		child.append(selected, button);
 	})
+
+	
+	
 }
+
+
 
 addByClick('hotels')
 addByClick('restaurants')
