@@ -1,17 +1,16 @@
 const express = require('express')
-const APIrouter = express.Router()
-const db = require('../models').db
+const apiRouter = express.Router()
 
 const Hotel = require('../models').Hotel
 const Restaurant = require('../models').Restaurant
 const Activity = require('../models').Activity
 
-APIrouter.get('/', function(req, res, next){
+apiRouter.get('/', function(req, res, next){
 
 		var allAttractions = {};
-		let hotelProm = Hotel.findAll({include:[{all: true}]})
-		let restaurantProm = Restaurant.findAll({include:[{all: true}]})
-		let actProm = Activity.findAll({include:[{all: true}]})
+		let hotelProm = Hotel.findAll({include: [{all: true}]})
+		let restaurantProm = Restaurant.findAll({include: [{all: true}]})
+		let actProm = Activity.findAll({include: [{all: true}]})
 
 		Promise.all([hotelProm, restaurantProm, actProm]).then(function(values){
 			allAttractions.hotels = values[0]
@@ -22,4 +21,4 @@ APIrouter.get('/', function(req, res, next){
 		.catch()
 	})
 
-	module.exports = APIrouter
+module.exports = apiRouter
