@@ -40,32 +40,18 @@ fetch('./api')
 .catch()
 
 // on click (+)
-function getCoords(value){
-	return locations[value]
+
+function addByClick (attType) {
+	document.getElementById(attType + '-add').addEventListener('click', function(){
+		const child = document.createElement('li')
+		const selected = document.getElementById(attType + '-choices').value
+		child.innerHTML = selected
+		document.getElementById(attType + '-list').append(child)
+		buildMarker(attType, locations[selected]).addTo(map)
+	})
 }
 
-document.getElementById('hotels-add').addEventListener('click', function(){
-	const child = document.createElement('li')
-	const selected = document.getElementById('hotels-choices').value
-	child.innerHTML = selected
-	document.getElementById('hotels-list').append(child)
-	buildMarker('hotels', locations[selected]).addTo(map)
-})
-
-document.getElementById('restaurants-add').addEventListener('click', function(){
-	const child = document.createElement('li')
-	const selected = document.getElementById('restaurants-choices').value
-	child.innerHTML = selected
-	document.getElementById('restaurants-list').append(child)
-	buildMarker('restaurants', locations[selected]).addTo(map)
-})
-
-document.getElementById('activities-add').addEventListener('click', function(){
-	const child = document.createElement('li')
-	const selected = document.getElementById('activities-choices').value
-	child.innerHTML = selected
-	document.getElementById('activities-list').append(child)
-	buildMarker('activities', locations[selected]).addTo(map)
-})
-
+addByClick('hotels')
+addByClick('restaurants')
+addByClick('activities')
 
