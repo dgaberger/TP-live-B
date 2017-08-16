@@ -41,6 +41,12 @@ fetch('./api')
 
 // on click (+)
 
+const state = {
+	hotels: [],
+	restaurants: [],
+	activities: []
+  };
+
 function addByClick (attType) {
 	document.getElementById(attType + '-add').addEventListener('click', function(){
 		
@@ -49,12 +55,13 @@ function addByClick (attType) {
 		child.className = "itinerary-item"; 
 		const selected = document.getElementById(attType + '-choices').value
 		document.getElementById(attType + '-list').append(child);
+		state[attType].push([selected, locations[selected]]);
 		buildMarker(attType, locations[selected]).addTo(map);
 		map.flyTo({
 			center: locations[selected],
 			zoom: 16
 		})
-		
+		console.log('after adding', state)
 		//create button
 		const button = document.createElement("button");
 		button.className = "btn btn-xs btn-danger remove btn-circle";
@@ -62,12 +69,18 @@ function addByClick (attType) {
 		button.addEventListener('click', function(){
 			console.log(selected);
 			child.remove();
+			let removeIndex = state[attType].findIndex((elem) => {
+				return elem[0] === selected;
+			});
+			
+			state[attType].splice(removeIndex, 1);
+			console.log('after remove', state)
 		})
 		child.append(selected, button);
 	})
 
-	
-	
+
+
 }
 
 
