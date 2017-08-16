@@ -591,29 +591,40 @@ function addByClick (attType) {
 		const child = document.createElement('li')
 		child.className = "itinerary-item"; 
 		const selected = document.getElementById(attType + '-choices').value
-		document.getElementById(attType + '-list').append(child);
-		state[attType].push([selected, locations[selected]]);
-		buildMarker(attType, locations[selected]).addTo(map);
-		map.flyTo({
-			center: locations[selected],
-			zoom: 16
-		})
-		console.log('after adding', state)
-		//create button
-		const button = document.createElement("button");
-		button.className = "btn btn-xs btn-danger remove btn-circle";
-		button.append("x");
-		button.addEventListener('click', function(){
-			console.log(selected);
-			child.remove();
-			let removeIndex = state[attType].findIndex((elem) => {
-				return elem[0] === selected;
-			});
-			
-			state[attType].splice(removeIndex, 1);
-			console.log('after remove', state)
-		})
-		child.append(selected, button);
+		let isNew = true;
+		for(let i = 0; i < state[attType].length; i++){
+			if(state[attType][i][0] === selected){
+				isNew = false;
+				break;
+			}
+		}
+		if(isNew){
+			document.getElementById(attType + '-list').append(child);
+			state[attType].push([selected, locations[selected]]);
+			buildMarker(attType, locations[selected]).addTo(map);
+			map.flyTo({
+				center: locations[selected],
+				zoom: 16
+			})
+			console.log('after adding', state)
+			//create button
+			const button = document.createElement("button");
+			button.className = "btn btn-xs btn-danger remove btn-circle";
+			button.append("x");
+			button.addEventListener('click', function(){
+				console.log(selected);
+				child.remove();
+				document.getElementById(locations[selected].toString()).remove();
+				let removeIndex = state[attType].findIndex((elem) => {
+					return elem[0] === selected;
+				});
+				
+				state[attType].splice(removeIndex, 1);
+				console.log('after remove', state)
+			})
+			child.append(selected, button);
+		}
+		
 	})
 
 
@@ -666,6 +677,7 @@ const iconURLs = {
 
 const buildMarker = (type, coords) => {
   const markerEl = document.createElement("div");
+  markerEl.id = coords.toString();
   markerEl.style.backgroundSize = "contain";
   markerEl.style.width = "32px";
   markerEl.style.height = "37px";
